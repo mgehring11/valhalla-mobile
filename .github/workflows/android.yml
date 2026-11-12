@@ -2,9 +2,10 @@ name: Android
 
 on:
   push:
-    branches: [main]
+    branches: [main, flap-fix-0.6.4]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
