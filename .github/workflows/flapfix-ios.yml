@@ -5,10 +5,19 @@ on:
 
 jobs:
   build-ios:
-    runs-on: macos-15
+    runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        arch: ["arm64-ios", "arm64-ios-simulator", "x64-ios-simulator"]
+        include:
+          # arm64-ios kept starving on the macOS arm64 runner pool
+          # ("job was not acquired by Runner"); Intel pool has capacity
+          # and Xcode cross-compiles the arm64 device slice fine.
+          - arch: arm64-ios
+            runner: macos-15-intel
+          - arch: arm64-ios-simulator
+            runner: macos-15
+          - arch: x64-ios-simulator
+            runner: macos-15
 
     steps:
       - name: Checkout Valhalla
